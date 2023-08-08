@@ -46,6 +46,7 @@ INSTALLED_APPS = [
 
     # app
     'applications.users',
+    'applications.products',
 ]
 
 CSRF_TRUSTED_ORIGINS = os.environ.get("BACKEND_CORS_ORIGINS", "http://localhost:8000 http://127.0.0.1:8000").split(" ")
@@ -182,9 +183,12 @@ BROKER_URL = f'redis://{os.environ.get("REDIS_HOST", "localhost")}:{os.environ.g
 BROKER_TRANSPORT = 'redis'
 
 CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
-        'LOCATION': BASE_DIR / 'cache/',
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": BROKER_URL,
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
     }
 }
 
