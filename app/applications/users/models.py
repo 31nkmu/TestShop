@@ -11,7 +11,6 @@ class UserManager(BaseUserManager):
         email = self.normalize_email(email)
         user = self.model(email=email, **extra_fields)
         user.password = make_password(password)
-        user.create_activation_code()
         user.save(using=self._db)
         return user
 
@@ -24,7 +23,6 @@ class UserManager(BaseUserManager):
         extra_fields.setdefault("is_staff", True)
         extra_fields.setdefault("is_superuser", True)
         extra_fields.setdefault("is_active", True)
-        extra_fields.setdefault("is_subscribed", False)
 
         if extra_fields.get("is_staff") is not True:
             raise ValueError("Superuser must have is_staff=True.")
@@ -46,15 +44,3 @@ class CustomUser(AbstractUser):
     def __str__(self):
         return self.email
 
-    def create_activation_code(self):
-        import uuid
-        code = str(uuid.uuid4())
-        self.activation_code = code
-
-    def create_code_confirm(self):
-        import random
-        chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
-        code = ''
-        for i in range(4):
-            code += random.choice(chars)
-        self.activation_code = code

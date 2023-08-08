@@ -95,3 +95,10 @@ migrate: ## Проведение миграций
 makemigrations: ## Создание миграций
 	poetry run python3 app/manage.py makemigrations
 
+.PHONY: run
+run: ## Создание миграций
+	poetry run python3 app/manage.py runserver
+
+.PHONY: createsuperuser-dev
+createsuperuser-dev: ## Создание миграций
+	poetry run python3 app/manage.py createsuperuser
