@@ -26,7 +26,7 @@ schema_view = get_schema_view(
     openapi.Info(
         title="API",
         default_version='v1',
-        description="Electronics store",
+        description="Test Shop",
     ),
     public=True,
 )
@@ -35,7 +35,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('swagger/', schema_view.with_ui('swagger')),
 
-    path('api/', include('applications.account.urls')),
+    path('api/', include('applications.users.urls')),
     path('api/products/', include('applications.products.urls')),
 ]
 

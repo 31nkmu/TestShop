@@ -53,7 +53,6 @@ services:
     networks:
       - network
 
-
   nginx:
     build: ../nginx
     volumes:
@@ -65,34 +64,6 @@ services:
       - web
     networks:
       - network
-
-  celery:
-    build:
-      context: ..
-      dockerfile: docker/Dockerfile.prod
-    command: celery -A config worker -l info
-    depends_on:
-      - web
-    env_file:
-      - .env
-    networks:
-      - network
-
-
-  flower:
-    build:
-      context: ..
-      dockerfile: docker/Dockerfile.prod
-    command: celery -A config.celery:app flower
-    depends_on:
-      - web
-    ports:
-      - ${FLOWER_PORT}:${FLOWER_PORT}
-    env_file:
-      - .env
-    networks:
-      - network
-
 
 networks:
   network:
